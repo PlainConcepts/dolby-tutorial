@@ -1,0 +1,18 @@
+html, body {
+    width: 95%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+video {
+    width: 100%;
+}
+
+.sub{
+    font-size: 0.7em;
+}
+
+.video-container {
+    width: 80%;
+    margin: 0 auto;
+}

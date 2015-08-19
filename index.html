@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dolby Tutorial</title>
+    <link rel="stylesheet" href="lib/highlight/github-gist.css"/>
+    <link rel="stylesheet" href="styles/dolby.css"/>
+</head>
+<body>
+<h1>Dolby support Snippets</h1>
+
+<h3 id="video-title">Video Player</h3>
+
+<div id="video-container" class="video-container">
+    <video src="assets/dolby.mp4" controls></video>
+</div>
+<br/>
+
+<h3>HTML Code</h3>
+<pre>
+    <code class="html">
+&lt;video src="assets/dolby.mp4" controls&gt;&lt;/video&gt;
+    </code>
+</pre>
+<h3>Detecting support... <span class="sub">(<a target="_blank" href="scripts/feature-detection.js">download</a>)</span></h3>
+<pre>
+    <code class="js">
+var Dolby = Dolby || {};
+
+(function (start) {
+    'use strict';
+    var video = document.createElement('video');
+
+    if (video.canPlayType('audio/mp4;codecs="ec-3"') === '' || video.canPlayType('audio/mp4;codecs="ac-3"') === '') {
+        Dolby.supportDDPlus = false;
+        start();
+    } else {
+        var audio = new Audio();
+        audio.muted = true;
+        audio.addEventListener('error', function () {
+            Dolby.supportDDPlus = false;
+            start();
+        }, false);
+        audio.addEventListener('seeked', function () {
+            Dolby.supportDDPlus = true;
+            start();
+        }, false);
+
+        audio.addEventListener('canplaythrough', function () {
+        try {
+            audio.currentTime = 2;
+        } catch (e) {
+        }
+        }, false);
+        audio.src = '/assets/silence.mp4';
+        audio.play();
+    }
+}(Dolby.init));
+    </code>
+</pre>
+<script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="scripts/dolby.js"></script>
+<script src="scripts/feature-detection.js"></script>
+</body>
+</html>
